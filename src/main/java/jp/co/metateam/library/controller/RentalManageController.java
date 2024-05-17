@@ -114,33 +114,6 @@ public class RentalManageController {
  * @param model
  * @return
  */
-// @GetMapping("/rental/{id}/edit")
-// public String edit(@PathVariable("id") String id, Model model) {
-    
-//     List<Stock> stockList = this.stockService.findAll();
-//     List<Account> accounts = this.accountService.findAll();
-//     //model.addAttribute（第一引数、第二引数);第二引数のデータを第一引数の型、箱に入れてView（HTML）に渡す
-//     //<option th:each="account : ${accounts}" th:value="${account.employeeId}"
-//     model.addAttribute("accounts", accounts);
-//     //<option th:each="stock : ${stockList}" th:value="${stock.id}"
-//     model.addAttribute("stockList", stockList);
-//     //<option th:each="status : ${rentalStatus}" th:value="${status.value}"
-//     model.addAttribute("rentalStatus", RentalStatus.values());
-
-//     //ifのブロックは、編集を行いたい貸出管理番号に設定された情報（社員番号、貸出予定日、返却予定日、在庫管理番号、貸出ステータス）ダミーデータをセットする
-//         if (!model.containsAttribute("rentalManageDto")) {
-//             //クラス名 変数名 = new クラス名(); →インスタンスの生成
-//             RentalManageDto rentalManageDto = new RentalManageDto();
-//             RentalManage rentalManage = this.rentalManageService.findById(Long.valueOf(id));
-//             rentalManageDto.setEmployeeId(rentalManage.getAccount().getEmployeeId());
-//             rentalManageDto.setExpectedRentalOn(rentalManage.getExpectedRentalOn());
-//             rentalManageDto.setExpectedReturnOn(rentalManage.getExpectedReturnOn());
-//             rentalManageDto.setStockId(rentalManage.getStock().getId());
-//             rentalManageDto.setStatus(rentalManage.getStatus());
-//             model.addAttribute("rentalManageDto", rentalManageDto);
-//         }
-//     return "rental/edit";
-// }
 @GetMapping("/rental/{id}/edit")
     public String edit(@PathVariable("id") String id, Model model) {
         List<Account> accounts = this.accountService.findAll();
@@ -176,7 +149,7 @@ public String update(@PathVariable("id") String id, @Valid @ModelAttribute Renta
     try {
         //変更前情報を取得
         RentalManage rentalManage = this.rentalManageService.findById(Long.valueOf(id));
-        
+
         //変更後のステータスを渡してDtoでバリデーションチェック
         String validationError = rentalManageDto.validationChecks(rentalManage.getStatus());
         if(validationError != null){
