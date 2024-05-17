@@ -174,14 +174,13 @@ public class RentalManageController {
 @PostMapping("/rental/{id}/edit")
 public String update(@PathVariable("id") String id, @Valid @ModelAttribute RentalManageDto rentalManageDto, BindingResult result, RedirectAttributes ra)throws Exception {
     try {
-
         //変更前情報を取得
         RentalManage rentalManage = this.rentalManageService.findById(Long.valueOf(id));
-        //変更後のステータスを渡してDtoでバリデーションチェック
-        String ValidationError = rentalManageDto.validationChecks(rentalManage.getStatus());
         
-        if(ValidationError != null){
-            result.addError(new FieldError("rentalManage", "status", ValidationError));
+        //変更後のステータスを渡してDtoでバリデーションチェック
+        String validationError = rentalManageDto.validationChecks(rentalManage.getStatus());
+        if(validationError != null){
+            result.addError(new FieldError("rentalManage", "status", validationError));
         } 
 
         //バリデーションエラーがあるかを判別。エラーあり：例外を投げる エラーなし：登録処理に移る
